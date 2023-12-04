@@ -1,0 +1,4 @@
+total = mark1 + marks2 + marks3;
+a = +c - ;
+a = b++;
+a = ++b;

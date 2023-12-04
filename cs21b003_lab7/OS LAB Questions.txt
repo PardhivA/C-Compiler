@@ -1,0 +1,5 @@
+upper case
+sleep
+priority based scheduling - priority queue 
+lottery based scheduling
+fork
