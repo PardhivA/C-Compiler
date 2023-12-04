@@ -1,0 +1,10 @@
+1. include identifier
+2. stdio identifier
+3. h identifier
+4. num identifier
+5. ptr identifier
+6. Accessing identifier
+7. array identifier
+8. elements identifier
+9. through identifier
+10. pointers identifier
