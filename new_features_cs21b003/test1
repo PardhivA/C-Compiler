@@ -1,7 +1,7 @@
 switch(a+b){
     case 1:
         a = b+c;
-        switch(b+c){
+        switch("bokka"){
             case 27*(a-7+8):
                 hola = hello;
                 if(k==p){

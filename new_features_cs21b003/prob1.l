@@ -17,7 +17,7 @@ digit [0-9]
 "break"                             {return BREAK;}
 "default"                           {return DEFAULT;}
 "continue"                          {return CONTINUE; }
-" "{alpha}({alpha}|{digit})*  " "   {return }
+(\"){alpha}({alpha}|{digit})*(\")       {strcpy(yylval.lexeme , yytext);return STRINGNAME;}
 {alpha}({alpha}|{digit})*    	    {strcpy(yylval.lexeme , yytext);
                                         /*printf("%s",yytext);*/ return ID;}
 {digit}+"."{digit}+		            {/*printf("%s",yytext);*/

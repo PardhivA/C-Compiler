@@ -1,0 +1,9 @@
+switch ("a"){
+    case "fsdf" : 
+    a = b+c;
+    break;
+    case "b":
+    b =c + d;
+    break;
+    default:
+}

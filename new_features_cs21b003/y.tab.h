@@ -56,33 +56,34 @@ extern int yydebug;
     YYUNDEF = 257,                 /* "invalid token"  */
     NUMBER = 258,                  /* NUMBER  */
     ID = 259,                      /* ID  */
-    FLOAT_NUMBER = 260,            /* FLOAT_NUMBER  */
-    INC = 261,                     /* INC  */
-    DEC = 262,                     /* DEC  */
-    LPAREN = 263,                  /* LPAREN  */
-    RPAREN = 264,                  /* RPAREN  */
-    RELAND = 265,                  /* RELAND  */
-    REOR = 266,                    /* REOR  */
-    NOT = 267,                     /* NOT  */
-    BOOLOR = 268,                  /* BOOLOR  */
-    BOOLAND = 269,                 /* BOOLAND  */
-    RELGREAT = 270,                /* RELGREAT  */
-    RELLESS = 271,                 /* RELLESS  */
-    RELGREATEQUAL = 272,           /* RELGREATEQUAL  */
-    RELLESSEQUAL = 273,            /* RELLESSEQUAL  */
-    RELNOTEQUAL = 274,             /* RELNOTEQUAL  */
-    RELEQUAL = 275,                /* RELEQUAL  */
-    ELSE = 276,                    /* ELSE  */
-    LBRACE = 277,                  /* LBRACE  */
-    RBRACE = 278,                  /* RBRACE  */
-    IF = 279,                      /* IF  */
-    DO = 280,                      /* DO  */
-    WHILE = 281,                   /* WHILE  */
-    SWITCH = 282,                  /* SWITCH  */
-    BREAK = 283,                   /* BREAK  */
-    CONTINUE = 284,                /* CONTINUE  */
-    CASE = 285,                    /* CASE  */
-    DEFAULT = 286                  /* DEFAULT  */
+    STRINGNAME = 260,              /* STRINGNAME  */
+    FLOAT_NUMBER = 261,            /* FLOAT_NUMBER  */
+    INC = 262,                     /* INC  */
+    DEC = 263,                     /* DEC  */
+    LPAREN = 264,                  /* LPAREN  */
+    RPAREN = 265,                  /* RPAREN  */
+    RELAND = 266,                  /* RELAND  */
+    REOR = 267,                    /* REOR  */
+    NOT = 268,                     /* NOT  */
+    BOOLOR = 269,                  /* BOOLOR  */
+    BOOLAND = 270,                 /* BOOLAND  */
+    RELGREAT = 271,                /* RELGREAT  */
+    RELLESS = 272,                 /* RELLESS  */
+    RELGREATEQUAL = 273,           /* RELGREATEQUAL  */
+    RELLESSEQUAL = 274,            /* RELLESSEQUAL  */
+    RELNOTEQUAL = 275,             /* RELNOTEQUAL  */
+    RELEQUAL = 276,                /* RELEQUAL  */
+    ELSE = 277,                    /* ELSE  */
+    LBRACE = 278,                  /* LBRACE  */
+    RBRACE = 279,                  /* RBRACE  */
+    IF = 280,                      /* IF  */
+    DO = 281,                      /* DO  */
+    WHILE = 282,                   /* WHILE  */
+    SWITCH = 283,                  /* SWITCH  */
+    BREAK = 284,                   /* BREAK  */
+    CONTINUE = 285,                /* CONTINUE  */
+    CASE = 286,                    /* CASE  */
+    DEFAULT = 287                  /* DEFAULT  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -93,33 +94,34 @@ extern int yydebug;
 #define YYUNDEF 257
 #define NUMBER 258
 #define ID 259
-#define FLOAT_NUMBER 260
-#define INC 261
-#define DEC 262
-#define LPAREN 263
-#define RPAREN 264
-#define RELAND 265
-#define REOR 266
-#define NOT 267
-#define BOOLOR 268
-#define BOOLAND 269
-#define RELGREAT 270
-#define RELLESS 271
-#define RELGREATEQUAL 272
-#define RELLESSEQUAL 273
-#define RELNOTEQUAL 274
-#define RELEQUAL 275
-#define ELSE 276
-#define LBRACE 277
-#define RBRACE 278
-#define IF 279
-#define DO 280
-#define WHILE 281
-#define SWITCH 282
-#define BREAK 283
-#define CONTINUE 284
-#define CASE 285
-#define DEFAULT 286
+#define STRINGNAME 260
+#define FLOAT_NUMBER 261
+#define INC 262
+#define DEC 263
+#define LPAREN 264
+#define RPAREN 265
+#define RELAND 266
+#define REOR 267
+#define NOT 268
+#define BOOLOR 269
+#define BOOLAND 270
+#define RELGREAT 271
+#define RELLESS 272
+#define RELGREATEQUAL 273
+#define RELLESSEQUAL 274
+#define RELNOTEQUAL 275
+#define RELEQUAL 276
+#define ELSE 277
+#define LBRACE 278
+#define RBRACE 279
+#define IF 280
+#define DO 281
+#define WHILE 282
+#define SWITCH 283
+#define BREAK 284
+#define CONTINUE 285
+#define CASE 286
+#define DEFAULT 287
 
 /* Value type.  */
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
@@ -134,7 +136,7 @@ union YYSTYPE
 	float fval;
 	struct charac_node *Charac_node;
 
-#line 138 "y.tab.h"
+#line 140 "y.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

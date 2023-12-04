@@ -60,6 +60,7 @@ void initialize();
 
 %token NUMBER
 %token  ID
+%token STRINGNAME
 %token  FLOAT_NUMBER
 %token INC DEC  LPAREN RPAREN RELAND REOR NOT BOOLOR BOOLAND 
 %token RELGREAT
@@ -79,7 +80,7 @@ void initialize();
 %token <String> DEFAULT	
 %type<String>FACT
 
-
+%type<String> type
 %type<String> EXPR
 %type<String> TERM
 
@@ -134,7 +135,7 @@ slist1 : 	stmt ';'  slist1
 	|   BREAK {printf("goto %s \n", stackWhile2[stack_count_while2 -1]);} ';' slist1
 	| {};
 
-switch : SWITCH '(' EXPR')' {
+switch : SWITCH '(' type')' {
 	char *temp1 = (char*)malloc(40 *sizeof(char));
 	strcpy(expr_label[expr_label_count++], $3);
 	temp1 = gen_out_fun();
@@ -146,14 +147,20 @@ switch : SWITCH '(' EXPR')' {
 	switch_out_count--;
 };
 
-cases : CASE  EXPR {
+cases : CASE  type {
 	char *temp1 = (char*)malloc(40 *sizeof(char));
-	temp1 = gen_label();strcpy(stack[stack_count++], temp1);	
+	temp1 = gen_label();
+	strcpy(stack[stack_count++], temp1);	
 	printf("ifFalse %s = %s goto %s \n", expr_label[expr_label_count-1], $2, temp1);
-	
+} ':' slist BREAK {printf("goto %s \n", switch_out[switch_out_count-1]); printf("%s: ",stack[stack_count-1]); stack_count--;}';' cases | DEFAULT ':' slist | {};
 
-}':' slist BREAK {printf("goto %s \n", switch_out[switch_out_count-1]); printf("%s: ",stack[stack_count-1]); stack_count--;}';' cases | DEFAULT ':' slist | {};
-
+type : EXPR {
+	$$ = (char*)malloc(40 *sizeof(char));
+	strcpy($$, $1);
+	} | STRINGNAME {
+	$$ = (char*)malloc(40 *sizeof(char));
+	strcpy($$, yylval.lexeme);
+	}
 
 do_while : DO {char *temp1 = (char*)malloc(40 *sizeof(char));
 	temp1 = gen_label();strcpy(stack[stack_count++], temp1);
