@@ -1,0 +1,29 @@
+switch(a+b){
+    case 1:
+        a = b+c;
+        switch(b+c){
+            case 27*(a-7+8):
+                hola = hello;
+                if(k==p){
+                    t = p;
+                    g = s;
+                    n = i;
+                    while(f){
+                        t = true;
+                        n = n++;
+                    }
+                }
+                break;
+            case 3:
+                hello = hola;
+                break;
+            default:  
+                hola = chao;
+        }
+        break;
+    case 2:
+        b = c+d;
+        break;
+    default:
+}
+v = v + 1;

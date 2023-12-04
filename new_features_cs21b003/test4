@@ -1,0 +1,12 @@
+a = b + c;
+while(a > b){
+    a = b + 2;
+    if(a == c){
+    if(c == b){
+    continue;
+    }
+    break;
+    }
+    b = c + 2;
+}
+c  =a  + b;
