@@ -1,0 +1,463 @@
+Grammar
+
+    0 $accept: slist $end
+
+    1 $@1: ε
+
+    2 slist: stmt ';' $@1 slist
+    3      | ε
+
+    4 stmt: ID '=' EXPR
+
+    5 EXPR: EXPR '+' TERM
+    6     | EXPR '-' TERM
+    7     | TERM
+
+    8 TERM: TERM '*' FACT
+    9     | TERM '/' FACT
+   10     | FACT
+
+   11 FACT: INC IDM
+   12     | IDM INC
+   13     | DEC IDM
+   14     | IDM DEC
+   15     | '-' FIX
+   16     | FIX
+
+   17 IDM: ID
+
+   18 FIX: LPAREN EXPR RPAREN
+   19    | ID
+   20    | NUMBER
+   21    | FLOAT_NUMBER
+
+
+Terminals, with rules where they appear
+
+    $end (0) 0
+    '*' (42) 8
+    '+' (43) 5
+    '-' (45) 6 15
+    '/' (47) 9
+    ';' (59) 2
+    '=' (61) 4
+    error (256)
+    NUMBER (258) 20
+    ID (259) 4 17 19
+    INC (260) 11 12
+    DEC (261) 13 14
+    FLOAT_NUMBER (262) 21
+    LPAREN (263) 18
+    RPAREN (264) 18
+
+
+Nonterminals, with rules where they appear
+
+    $accept (16)
+        on left: 0
+    slist (17)
+        on left: 2 3
+        on right: 0 2
+    $@1 (18)
+        on left: 1
+        on right: 2
+    stmt (19)
+        on left: 4
+        on right: 2
+    EXPR (20)
+        on left: 5 6 7
+        on right: 4 5 6 18
+    TERM (21)
+        on left: 8 9 10
+        on right: 5 6 7 8 9
+    FACT (22)
+        on left: 11 12 13 14 15 16
+        on right: 8 9 10
+    IDM (23)
+        on left: 17
+        on right: 11 12 13 14
+    FIX (24)
+        on left: 18 19 20 21
+        on right: 15 16
+
+
+State 0
+
+    0 $accept: • slist $end
+
+    ID  shift, and go to state 1
+
+    $default  reduce using rule 3 (slist)
+
+    slist  go to state 2
+    stmt   go to state 3
+
+
+State 1
+
+    4 stmt: ID • '=' EXPR
+
+    '='  shift, and go to state 4
+
+
+State 2
+
+    0 $accept: slist • $end
+
+    $end  shift, and go to state 5
+
+
+State 3
+
+    2 slist: stmt • ';' $@1 slist
+
+    ';'  shift, and go to state 6
+
+
+State 4
+
+    4 stmt: ID '=' • EXPR
+
+    NUMBER        shift, and go to state 7
+    ID            shift, and go to state 8
+    INC           shift, and go to state 9
+    DEC           shift, and go to state 10
+    FLOAT_NUMBER  shift, and go to state 11
+    LPAREN        shift, and go to state 12
+    '-'           shift, and go to state 13
+
+    EXPR  go to state 14
+    TERM  go to state 15
+    FACT  go to state 16
+    IDM   go to state 17
+    FIX   go to state 18
+
+
+State 5
+
+    0 $accept: slist $end •
+
+    $default  accept
+
+
+State 6
+
+    2 slist: stmt ';' • $@1 slist
+
+    $default  reduce using rule 1 ($@1)
+
+    $@1  go to state 19
+
+
+State 7
+
+   20 FIX: NUMBER •
+
+    $default  reduce using rule 20 (FIX)
+
+
+State 8
+
+   17 IDM: ID •
+   19 FIX: ID •
+
+    INC       reduce using rule 17 (IDM)
+    DEC       reduce using rule 17 (IDM)
+    $default  reduce using rule 19 (FIX)
+
+
+State 9
+
+   11 FACT: INC • IDM
+
+    ID  shift, and go to state 20
+
+    IDM  go to state 21
+
+
+State 10
+
+   13 FACT: DEC • IDM
+
+    ID  shift, and go to state 20
+
+    IDM  go to state 22
+
+
+State 11
+
+   21 FIX: FLOAT_NUMBER •
+
+    $default  reduce using rule 21 (FIX)
+
+
+State 12
+
+   18 FIX: LPAREN • EXPR RPAREN
+
+    NUMBER        shift, and go to state 7
+    ID            shift, and go to state 8
+    INC           shift, and go to state 9
+    DEC           shift, and go to state 10
+    FLOAT_NUMBER  shift, and go to state 11
+    LPAREN        shift, and go to state 12
+    '-'           shift, and go to state 13
+
+    EXPR  go to state 23
+    TERM  go to state 15
+    FACT  go to state 16
+    IDM   go to state 17
+    FIX   go to state 18
+
+
+State 13
+
+   15 FACT: '-' • FIX
+
+    NUMBER        shift, and go to state 7
+    ID            shift, and go to state 24
+    FLOAT_NUMBER  shift, and go to state 11
+    LPAREN        shift, and go to state 12
+
+    FIX  go to state 25
+
+
+State 14
+
+    4 stmt: ID '=' EXPR •
+    5 EXPR: EXPR • '+' TERM
+    6     | EXPR • '-' TERM
+
+    '+'  shift, and go to state 26
+    '-'  shift, and go to state 27
+
+    $default  reduce using rule 4 (stmt)
+
+
+State 15
+
+    7 EXPR: TERM •
+    8 TERM: TERM • '*' FACT
+    9     | TERM • '/' FACT
+
+    '*'  shift, and go to state 28
+    '/'  shift, and go to state 29
+
+    $default  reduce using rule 7 (EXPR)
+
+
+State 16
+
+   10 TERM: FACT •
+
+    $default  reduce using rule 10 (TERM)
+
+
+State 17
+
+   12 FACT: IDM • INC
+   14     | IDM • DEC
+
+    INC  shift, and go to state 30
+    DEC  shift, and go to state 31
+
+
+State 18
+
+   16 FACT: FIX •
+
+    $default  reduce using rule 16 (FACT)
+
+
+State 19
+
+    2 slist: stmt ';' $@1 • slist
+
+    ID  shift, and go to state 1
+
+    $default  reduce using rule 3 (slist)
+
+    slist  go to state 32
+    stmt   go to state 3
+
+
+State 20
+
+   17 IDM: ID •
+
+    $default  reduce using rule 17 (IDM)
+
+
+State 21
+
+   11 FACT: INC IDM •
+
+    $default  reduce using rule 11 (FACT)
+
+
+State 22
+
+   13 FACT: DEC IDM •
+
+    $default  reduce using rule 13 (FACT)
+
+
+State 23
+
+    5 EXPR: EXPR • '+' TERM
+    6     | EXPR • '-' TERM
+   18 FIX: LPAREN EXPR • RPAREN
+
+    RPAREN  shift, and go to state 33
+    '+'     shift, and go to state 26
+    '-'     shift, and go to state 27
+
+
+State 24
+
+   19 FIX: ID •
+
+    $default  reduce using rule 19 (FIX)
+
+
+State 25
+
+   15 FACT: '-' FIX •
+
+    $default  reduce using rule 15 (FACT)
+
+
+State 26
+
+    5 EXPR: EXPR '+' • TERM
+
+    NUMBER        shift, and go to state 7
+    ID            shift, and go to state 8
+    INC           shift, and go to state 9
+    DEC           shift, and go to state 10
+    FLOAT_NUMBER  shift, and go to state 11
+    LPAREN        shift, and go to state 12
+    '-'           shift, and go to state 13
+
+    TERM  go to state 34
+    FACT  go to state 16
+    IDM   go to state 17
+    FIX   go to state 18
+
+
+State 27
+
+    6 EXPR: EXPR '-' • TERM
+
+    NUMBER        shift, and go to state 7
+    ID            shift, and go to state 8
+    INC           shift, and go to state 9
+    DEC           shift, and go to state 10
+    FLOAT_NUMBER  shift, and go to state 11
+    LPAREN        shift, and go to state 12
+    '-'           shift, and go to state 13
+
+    TERM  go to state 35
+    FACT  go to state 16
+    IDM   go to state 17
+    FIX   go to state 18
+
+
+State 28
+
+    8 TERM: TERM '*' • FACT
+
+    NUMBER        shift, and go to state 7
+    ID            shift, and go to state 8
+    INC           shift, and go to state 9
+    DEC           shift, and go to state 10
+    FLOAT_NUMBER  shift, and go to state 11
+    LPAREN        shift, and go to state 12
+    '-'           shift, and go to state 13
+
+    FACT  go to state 36
+    IDM   go to state 17
+    FIX   go to state 18
+
+
+State 29
+
+    9 TERM: TERM '/' • FACT
+
+    NUMBER        shift, and go to state 7
+    ID            shift, and go to state 8
+    INC           shift, and go to state 9
+    DEC           shift, and go to state 10
+    FLOAT_NUMBER  shift, and go to state 11
+    LPAREN        shift, and go to state 12
+    '-'           shift, and go to state 13
+
+    FACT  go to state 37
+    IDM   go to state 17
+    FIX   go to state 18
+
+
+State 30
+
+   12 FACT: IDM INC •
+
+    $default  reduce using rule 12 (FACT)
+
+
+State 31
+
+   14 FACT: IDM DEC •
+
+    $default  reduce using rule 14 (FACT)
+
+
+State 32
+
+    2 slist: stmt ';' $@1 slist •
+
+    $default  reduce using rule 2 (slist)
+
+
+State 33
+
+   18 FIX: LPAREN EXPR RPAREN •
+
+    $default  reduce using rule 18 (FIX)
+
+
+State 34
+
+    5 EXPR: EXPR '+' TERM •
+    8 TERM: TERM • '*' FACT
+    9     | TERM • '/' FACT
+
+    '*'  shift, and go to state 28
+    '/'  shift, and go to state 29
+
+    $default  reduce using rule 5 (EXPR)
+
+
+State 35
+
+    6 EXPR: EXPR '-' TERM •
+    8 TERM: TERM • '*' FACT
+    9     | TERM • '/' FACT
+
+    '*'  shift, and go to state 28
+    '/'  shift, and go to state 29
+
+    $default  reduce using rule 6 (EXPR)
+
+
+State 36
+
+    8 TERM: TERM '*' FACT •
+
+    $default  reduce using rule 8 (TERM)
+
+
+State 37
+
+    9 TERM: TERM '/' FACT •
+
+    $default  reduce using rule 9 (TERM)
