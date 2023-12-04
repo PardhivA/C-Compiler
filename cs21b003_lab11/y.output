@@ -1,0 +1,2465 @@
+Terminals unused in grammar
+
+    LONGL
+    DOUBLE
+    LPAREN
+    RPAREN
+    LBRACE
+    RBRACE
+
+
+Grammar
+
+    0 $accept: slist $end
+
+    1 slist: stmt ';' slist
+    2      | if_control else_add_on slist
+    3      | while_loop slist
+    4      | switch slist
+
+    5 $@1: ε
+
+    6 $@2: ε
+
+    7 slist: '{' $@1 slist $@2 '}' slist
+    8      | ε
+
+    9 $@3: ε
+
+   10 switch: SWITCH '(' EXPR ')' $@3 '{' cases '}'
+
+   11 $@4: ε
+
+   12 $@5: ε
+
+   13 cases: CASE EXPR $@4 ':' slist BREAK $@5 ';' cases
+   14      | DEFAULT ':' slist
+   15      | ε
+
+   16 $@6: ε
+
+   17 $@7: ε
+
+   18 while_loop: WHILE $@6 '(' condition ')' $@7 '{' slist '}'
+
+   19 $@8: ε
+
+   20 if_control: IF '(' condition ')' $@8 '{' slist '}'
+
+   21 $@9: ε
+
+   22 else_add_on: ELSE $@9 '{' slist '}'
+   23            | ε
+
+   24 condition: sub_condition boolop condition
+   25          | sub_condition
+   26          | NOT sub_condition
+   27          | NOT sub_condition boolop condition
+   28          | NOT '(' condition ')' boolop condition
+   29          | '(' condition ')' boolop condition
+   30          | NOT '(' condition ')'
+
+   31 sub_condition: EXPR1 relop EXPR1
+   32              | EXPR1
+
+   33 boolop: BOOLAND
+   34       | BOOLOR
+
+   35 relop: RELAND
+   36      | RELEQUAL
+   37      | RELGREAT
+   38      | RELGREATEQUAL
+   39      | RELLESS
+   40      | RELLESSEQUAL
+   41      | RELNOTEQUAL
+   42      | REOR
+   43      | '='
+
+   44 EXPR1: EXPR1 '+' TERM1
+   45      | EXPR1 '-' TERM1
+   46      | TERM1
+
+   47 TERM1: TERM1 '*' FACT1
+   48      | TERM1 '/' FACT1
+   49      | FACT1
+
+   50 FACT1: INC IDALL2
+   51      | IDALL2 INC
+   52      | DEC IDALL2
+   53      | IDALL2 DEC
+   54      | '-' FIX1
+   55      | FIX1
+
+   56 FIX1: IDALL2
+   57     | NUMBER
+   58     | FLOAT_NUMBER
+
+   59 $@10: ε
+
+   60 stmt: TYPE $@10 REC
+   61     | IDTEMP2 '=' EXPR
+   62     | EXPR
+
+   63 REC: IDALL REC1
+
+   64 TYPE: INT
+   65     | FLOAT
+   66     | CHAR
+
+   67 $@11: ε
+
+   68 REC1: '=' EXPR $@11 REC2
+   69     | REC2
+
+   70 REC2: ',' REC
+   71     | ε
+
+   72 EXPR: EXPR '+' TERM
+   73     | EXPR '-' TERM
+   74     | TERM
+
+   75 TERM: TERM '*' FACT
+   76     | TERM '/' FACT
+   77     | FACT
+
+   78 FACT: INC IDALL2
+   79     | IDTEMP2 INC
+   80     | DEC IDTEMP2
+   81     | IDTEMP2 DEC
+   82     | '-' FIX
+   83     | FIX
+
+   84 FIX: '(' EXPR ')'
+   85    | IDALL2
+   86    | NUMBER
+   87    | FLOAT_NUMBER
+
+   88 $@12: ε
+
+   89 IDALL2: IDTEMP2 $@12 BRACKS2
+
+   90 $@13: ε
+
+   91 BRACKS2: '[' NUMBER $@13 ']' BRACKS2
+   92        | ε
+
+   93 $@14: ε
+
+   94 IDALL: IDTEMP $@14 BRACKS
+
+   95 $@15: ε
+
+   96 BRACKS: '[' NUMBER $@15 ']' BRACKS
+   97       | ε
+
+   98 IDTEMP: ID
+
+   99 IDTEMP2: ID
+
+
+Terminals, with rules where they appear
+
+    $end (0) 0
+    '(' (40) 10 18 20 28 29 30 84
+    ')' (41) 10 18 20 28 29 30 84
+    '*' (42) 47 75
+    '+' (43) 44 72
+    ',' (44) 70
+    '-' (45) 45 54 73 82
+    '/' (47) 48 76
+    ':' (58) 13 14
+    ';' (59) 1 13
+    '=' (61) 43 61 68
+    '[' (91) 91 96
+    ']' (93) 91 96
+    '{' (123) 7 10 18 20 22
+    '}' (125) 7 10 18 20 22
+    error (256)
+    INT (258) 64
+    FLOAT (259) 65
+    LONGL (260)
+    CHAR (261) 66
+    DOUBLE (262)
+    NUMBER (263) 57 86 91 96
+    ID (264) 98 99
+    FLOAT_NUMBER (265) 58 87
+    INC (266) 50 51 78 79
+    DEC (267) 52 53 80 81
+    LPAREN (268)
+    RPAREN (269)
+    RELAND (270) 35
+    REOR (271) 42
+    NOT (272) 26 27 28 30
+    BOOLOR (273) 34
+    BOOLAND (274) 33
+    RELGREAT (275) 37
+    RELLESS (276) 39
+    RELGREATEQUAL (277) 38
+    RELLESSEQUAL (278) 40
+    RELNOTEQUAL (279) 41
+    RELEQUAL (280) 36
+    ELSE (281) 22
+    LBRACE (282)
+    RBRACE (283)
+    IF <String> (284) 20
+    WHILE <String> (285) 18
+    SWITCH <String> (286) 10
+    BREAK <String> (287) 13
+    CASE <String> (288) 13
+    DEFAULT <String> (289) 14
+
+
+Nonterminals, with rules where they appear
+
+    $accept (49)
+        on left: 0
+    slist <String> (50)
+        on left: 1 2 3 4 7 8
+        on right: 0 1 2 3 4 7 13 14 18 20 22
+    $@1 (51)
+        on left: 5
+        on right: 7
+    $@2 (52)
+        on left: 6
+        on right: 7
+    switch <String> (53)
+        on left: 10
+        on right: 4
+    $@3 (54)
+        on left: 9
+        on right: 10
+    cases <String> (55)
+        on left: 13 14 15
+        on right: 10 13
+    $@4 (56)
+        on left: 11
+        on right: 13
+    $@5 (57)
+        on left: 12
+        on right: 13
+    while_loop <String> (58)
+        on left: 18
+        on right: 3
+    $@6 (59)
+        on left: 16
+        on right: 18
+    $@7 (60)
+        on left: 17
+        on right: 18
+    if_control <String> (61)
+        on left: 20
+        on right: 2
+    $@8 (62)
+        on left: 19
+        on right: 20
+    else_add_on <String> (63)
+        on left: 22 23
+        on right: 2
+    $@9 (64)
+        on left: 21
+        on right: 22
+    condition <String> (65)
+        on left: 24 25 26 27 28 29 30
+        on right: 18 20 24 27 28 29 30
+    sub_condition <String> (66)
+        on left: 31 32
+        on right: 24 25 26 27
+    boolop <String> (67)
+        on left: 33 34
+        on right: 24 27 28 29
+    relop <String> (68)
+        on left: 35 36 37 38 39 40 41 42 43
+        on right: 31
+    EXPR1 <String> (69)
+        on left: 44 45 46
+        on right: 31 32 44 45
+    TERM1 <String> (70)
+        on left: 47 48 49
+        on right: 44 45 46 47 48
+    FACT1 <String> (71)
+        on left: 50 51 52 53 54 55
+        on right: 47 48 49
+    FIX1 <String> (72)
+        on left: 56 57 58
+        on right: 54 55
+    stmt <String> (73)
+        on left: 60 61 62
+        on right: 1
+    $@10 (74)
+        on left: 59
+        on right: 60
+    REC <String> (75)
+        on left: 63
+        on right: 60 70
+    TYPE <String> (76)
+        on left: 64 65 66
+        on right: 60
+    REC1 <String> (77)
+        on left: 68 69
+        on right: 63
+    $@11 (78)
+        on left: 67
+        on right: 68
+    REC2 <String> (79)
+        on left: 70 71
+        on right: 68 69
+    EXPR <String> (80)
+        on left: 72 73 74
+        on right: 10 13 61 62 68 72 73 84
+    TERM <String> (81)
+        on left: 75 76 77
+        on right: 72 73 74 75 76
+    FACT <String> (82)
+        on left: 78 79 80 81 82 83
+        on right: 75 76 77
+    FIX <String> (83)
+        on left: 84 85 86 87
+        on right: 82 83
+    IDALL2 <String> (84)
+        on left: 89
+        on right: 50 51 52 53 56 78 85
+    $@12 (85)
+        on left: 88
+        on right: 89
+    BRACKS2 <val> (86)
+        on left: 91 92
+        on right: 89 91
+    $@13 (87)
+        on left: 90
+        on right: 91
+    IDALL <String> (88)
+        on left: 94
+        on right: 63
+    $@14 (89)
+        on left: 93
+        on right: 94
+    BRACKS <val> (90)
+        on left: 96 97
+        on right: 94 96
+    $@15 (91)
+        on left: 95
+        on right: 96
+    IDTEMP <String> (92)
+        on left: 98
+        on right: 94
+    IDTEMP2 <String> (93)
+        on left: 99
+        on right: 61 79 80 81 89
+
+
+State 0
+
+    0 $accept: • slist $end
+
+    INT           shift, and go to state 1
+    FLOAT         shift, and go to state 2
+    CHAR          shift, and go to state 3
+    NUMBER        shift, and go to state 4
+    ID            shift, and go to state 5
+    FLOAT_NUMBER  shift, and go to state 6
+    INC           shift, and go to state 7
+    DEC           shift, and go to state 8
+    IF            shift, and go to state 9
+    WHILE         shift, and go to state 10
+    SWITCH        shift, and go to state 11
+    '{'           shift, and go to state 12
+    '('           shift, and go to state 13
+    '-'           shift, and go to state 14
+
+    $default  reduce using rule 8 (slist)
+
+    slist       go to state 15
+    switch      go to state 16
+    while_loop  go to state 17
+    if_control  go to state 18
+    stmt        go to state 19
+    TYPE        go to state 20
+    EXPR        go to state 21
+    TERM        go to state 22
+    FACT        go to state 23
+    FIX         go to state 24
+    IDALL2      go to state 25
+    IDTEMP2     go to state 26
+
+
+State 1
+
+   64 TYPE: INT •
+
+    $default  reduce using rule 64 (TYPE)
+
+
+State 2
+
+   65 TYPE: FLOAT •
+
+    $default  reduce using rule 65 (TYPE)
+
+
+State 3
+
+   66 TYPE: CHAR •
+
+    $default  reduce using rule 66 (TYPE)
+
+
+State 4
+
+   86 FIX: NUMBER •
+
+    $default  reduce using rule 86 (FIX)
+
+
+State 5
+
+   99 IDTEMP2: ID •
+
+    $default  reduce using rule 99 (IDTEMP2)
+
+
+State 6
+
+   87 FIX: FLOAT_NUMBER •
+
+    $default  reduce using rule 87 (FIX)
+
+
+State 7
+
+   78 FACT: INC • IDALL2
+
+    ID  shift, and go to state 5
+
+    IDALL2   go to state 27
+    IDTEMP2  go to state 28
+
+
+State 8
+
+   80 FACT: DEC • IDTEMP2
+
+    ID  shift, and go to state 5
+
+    IDTEMP2  go to state 29
+
+
+State 9
+
+   20 if_control: IF • '(' condition ')' $@8 '{' slist '}'
+
+    '('  shift, and go to state 30
+
+
+State 10
+
+   18 while_loop: WHILE • $@6 '(' condition ')' $@7 '{' slist '}'
+
+    $default  reduce using rule 16 ($@6)
+
+    $@6  go to state 31
+
+
+State 11
+
+   10 switch: SWITCH • '(' EXPR ')' $@3 '{' cases '}'
+
+    '('  shift, and go to state 32
+
+
+State 12
+
+    7 slist: '{' • $@1 slist $@2 '}' slist
+
+    $default  reduce using rule 5 ($@1)
+
+    $@1  go to state 33
+
+
+State 13
+
+   84 FIX: '(' • EXPR ')'
+
+    NUMBER        shift, and go to state 4
+    ID            shift, and go to state 5
+    FLOAT_NUMBER  shift, and go to state 6
+    INC           shift, and go to state 7
+    DEC           shift, and go to state 8
+    '('           shift, and go to state 13
+    '-'           shift, and go to state 14
+
+    EXPR     go to state 34
+    TERM     go to state 22
+    FACT     go to state 23
+    FIX      go to state 24
+    IDALL2   go to state 25
+    IDTEMP2  go to state 35
+
+
+State 14
+
+   82 FACT: '-' • FIX
+
+    NUMBER        shift, and go to state 4
+    ID            shift, and go to state 5
+    FLOAT_NUMBER  shift, and go to state 6
+    '('           shift, and go to state 13
+
+    FIX      go to state 36
+    IDALL2   go to state 25
+    IDTEMP2  go to state 28
+
+
+State 15
+
+    0 $accept: slist • $end
+
+    $end  shift, and go to state 37
+
+
+State 16
+
+    4 slist: switch • slist
+
+    INT           shift, and go to state 1
+    FLOAT         shift, and go to state 2
+    CHAR          shift, and go to state 3
+    NUMBER        shift, and go to state 4
+    ID            shift, and go to state 5
+    FLOAT_NUMBER  shift, and go to state 6
+    INC           shift, and go to state 7
+    DEC           shift, and go to state 8
+    IF            shift, and go to state 9
+    WHILE         shift, and go to state 10
+    SWITCH        shift, and go to state 11
+    '{'           shift, and go to state 12
+    '('           shift, and go to state 13
+    '-'           shift, and go to state 14
+
+    $default  reduce using rule 8 (slist)
+
+    slist       go to state 38
+    switch      go to state 16
+    while_loop  go to state 17
+    if_control  go to state 18
+    stmt        go to state 19
+    TYPE        go to state 20
+    EXPR        go to state 21
+    TERM        go to state 22
+    FACT        go to state 23
+    FIX         go to state 24
+    IDALL2      go to state 25
+    IDTEMP2     go to state 26
+
+
+State 17
+
+    3 slist: while_loop • slist
+
+    INT           shift, and go to state 1
+    FLOAT         shift, and go to state 2
+    CHAR          shift, and go to state 3
+    NUMBER        shift, and go to state 4
+    ID            shift, and go to state 5
+    FLOAT_NUMBER  shift, and go to state 6
+    INC           shift, and go to state 7
+    DEC           shift, and go to state 8
+    IF            shift, and go to state 9
+    WHILE         shift, and go to state 10
+    SWITCH        shift, and go to state 11
+    '{'           shift, and go to state 12
+    '('           shift, and go to state 13
+    '-'           shift, and go to state 14
+
+    $default  reduce using rule 8 (slist)
+
+    slist       go to state 39
+    switch      go to state 16
+    while_loop  go to state 17
+    if_control  go to state 18
+    stmt        go to state 19
+    TYPE        go to state 20
+    EXPR        go to state 21
+    TERM        go to state 22
+    FACT        go to state 23
+    FIX         go to state 24
+    IDALL2      go to state 25
+    IDTEMP2     go to state 26
+
+
+State 18
+
+    2 slist: if_control • else_add_on slist
+
+    ELSE  shift, and go to state 40
+
+    $default  reduce using rule 23 (else_add_on)
+
+    else_add_on  go to state 41
+
+
+State 19
+
+    1 slist: stmt • ';' slist
+
+    ';'  shift, and go to state 42
+
+
+State 20
+
+   60 stmt: TYPE • $@10 REC
+
+    $default  reduce using rule 59 ($@10)
+
+    $@10  go to state 43
+
+
+State 21
+
+   62 stmt: EXPR •
+   72 EXPR: EXPR • '+' TERM
+   73     | EXPR • '-' TERM
+
+    '+'  shift, and go to state 44
+    '-'  shift, and go to state 45
+
+    $default  reduce using rule 62 (stmt)
+
+
+State 22
+
+   74 EXPR: TERM •
+   75 TERM: TERM • '*' FACT
+   76     | TERM • '/' FACT
+
+    '*'  shift, and go to state 46
+    '/'  shift, and go to state 47
+
+    $default  reduce using rule 74 (EXPR)
+
+
+State 23
+
+   77 TERM: FACT •
+
+    $default  reduce using rule 77 (TERM)
+
+
+State 24
+
+   83 FACT: FIX •
+
+    $default  reduce using rule 83 (FACT)
+
+
+State 25
+
+   85 FIX: IDALL2 •
+
+    $default  reduce using rule 85 (FIX)
+
+
+State 26
+
+   61 stmt: IDTEMP2 • '=' EXPR
+   79 FACT: IDTEMP2 • INC
+   81     | IDTEMP2 • DEC
+   89 IDALL2: IDTEMP2 • $@12 BRACKS2
+
+    INC  shift, and go to state 48
+    DEC  shift, and go to state 49
+    '='  shift, and go to state 50
+
+    $default  reduce using rule 88 ($@12)
+
+    $@12  go to state 51
+
+
+State 27
+
+   78 FACT: INC IDALL2 •
+
+    $default  reduce using rule 78 (FACT)
+
+
+State 28
+
+   89 IDALL2: IDTEMP2 • $@12 BRACKS2
+
+    $default  reduce using rule 88 ($@12)
+
+    $@12  go to state 51
+
+
+State 29
+
+   80 FACT: DEC IDTEMP2 •
+
+    $default  reduce using rule 80 (FACT)
+
+
+State 30
+
+   20 if_control: IF '(' • condition ')' $@8 '{' slist '}'
+
+    NUMBER        shift, and go to state 52
+    ID            shift, and go to state 5
+    FLOAT_NUMBER  shift, and go to state 53
+    INC           shift, and go to state 54
+    DEC           shift, and go to state 55
+    NOT           shift, and go to state 56
+    '('           shift, and go to state 57
+    '-'           shift, and go to state 58
+
+    condition      go to state 59
+    sub_condition  go to state 60
+    EXPR1          go to state 61
+    TERM1          go to state 62
+    FACT1          go to state 63
+    FIX1           go to state 64
+    IDALL2         go to state 65
+    IDTEMP2        go to state 28
+
+
+State 31
+
+   18 while_loop: WHILE $@6 • '(' condition ')' $@7 '{' slist '}'
+
+    '('  shift, and go to state 66
+
+
+State 32
+
+   10 switch: SWITCH '(' • EXPR ')' $@3 '{' cases '}'
+
+    NUMBER        shift, and go to state 4
+    ID            shift, and go to state 5
+    FLOAT_NUMBER  shift, and go to state 6
+    INC           shift, and go to state 7
+    DEC           shift, and go to state 8
+    '('           shift, and go to state 13
+    '-'           shift, and go to state 14
+
+    EXPR     go to state 67
+    TERM     go to state 22
+    FACT     go to state 23
+    FIX      go to state 24
+    IDALL2   go to state 25
+    IDTEMP2  go to state 35
+
+
+State 33
+
+    7 slist: '{' $@1 • slist $@2 '}' slist
+
+    INT           shift, and go to state 1
+    FLOAT         shift, and go to state 2
+    CHAR          shift, and go to state 3
+    NUMBER        shift, and go to state 4
+    ID            shift, and go to state 5
+    FLOAT_NUMBER  shift, and go to state 6
+    INC           shift, and go to state 7
+    DEC           shift, and go to state 8
+    IF            shift, and go to state 9
+    WHILE         shift, and go to state 10
+    SWITCH        shift, and go to state 11
+    '{'           shift, and go to state 12
+    '('           shift, and go to state 13
+    '-'           shift, and go to state 14
+
+    $default  reduce using rule 8 (slist)
+
+    slist       go to state 68
+    switch      go to state 16
+    while_loop  go to state 17
+    if_control  go to state 18
+    stmt        go to state 19
+    TYPE        go to state 20
+    EXPR        go to state 21
+    TERM        go to state 22
+    FACT        go to state 23
+    FIX         go to state 24
+    IDALL2      go to state 25
+    IDTEMP2     go to state 26
+
+
+State 34
+
+   72 EXPR: EXPR • '+' TERM
+   73     | EXPR • '-' TERM
+   84 FIX: '(' EXPR • ')'
+
+    ')'  shift, and go to state 69
+    '+'  shift, and go to state 44
+    '-'  shift, and go to state 45
+
+
+State 35
+
+   79 FACT: IDTEMP2 • INC
+   81     | IDTEMP2 • DEC
+   89 IDALL2: IDTEMP2 • $@12 BRACKS2
+
+    INC  shift, and go to state 48
+    DEC  shift, and go to state 49
+
+    $default  reduce using rule 88 ($@12)
+
+    $@12  go to state 51
+
+
+State 36
+
+   82 FACT: '-' FIX •
+
+    $default  reduce using rule 82 (FACT)
+
+
+State 37
+
+    0 $accept: slist $end •
+
+    $default  accept
+
+
+State 38
+
+    4 slist: switch slist •
+
+    $default  reduce using rule 4 (slist)
+
+
+State 39
+
+    3 slist: while_loop slist •
+
+    $default  reduce using rule 3 (slist)
+
+
+State 40
+
+   22 else_add_on: ELSE • $@9 '{' slist '}'
+
+    $default  reduce using rule 21 ($@9)
+
+    $@9  go to state 70
+
+
+State 41
+
+    2 slist: if_control else_add_on • slist
+
+    INT           shift, and go to state 1
+    FLOAT         shift, and go to state 2
+    CHAR          shift, and go to state 3
+    NUMBER        shift, and go to state 4
+    ID            shift, and go to state 5
+    FLOAT_NUMBER  shift, and go to state 6
+    INC           shift, and go to state 7
+    DEC           shift, and go to state 8
+    IF            shift, and go to state 9
+    WHILE         shift, and go to state 10
+    SWITCH        shift, and go to state 11
+    '{'           shift, and go to state 12
+    '('           shift, and go to state 13
+    '-'           shift, and go to state 14
+
+    $default  reduce using rule 8 (slist)
+
+    slist       go to state 71
+    switch      go to state 16
+    while_loop  go to state 17
+    if_control  go to state 18
+    stmt        go to state 19
+    TYPE        go to state 20
+    EXPR        go to state 21
+    TERM        go to state 22
+    FACT        go to state 23
+    FIX         go to state 24
+    IDALL2      go to state 25
+    IDTEMP2     go to state 26
+
+
+State 42
+
+    1 slist: stmt ';' • slist
+
+    INT           shift, and go to state 1
+    FLOAT         shift, and go to state 2
+    CHAR          shift, and go to state 3
+    NUMBER        shift, and go to state 4
+    ID            shift, and go to state 5
+    FLOAT_NUMBER  shift, and go to state 6
+    INC           shift, and go to state 7
+    DEC           shift, and go to state 8
+    IF            shift, and go to state 9
+    WHILE         shift, and go to state 10
+    SWITCH        shift, and go to state 11
+    '{'           shift, and go to state 12
+    '('           shift, and go to state 13
+    '-'           shift, and go to state 14
+
+    $default  reduce using rule 8 (slist)
+
+    slist       go to state 72
+    switch      go to state 16
+    while_loop  go to state 17
+    if_control  go to state 18
+    stmt        go to state 19
+    TYPE        go to state 20
+    EXPR        go to state 21
+    TERM        go to state 22
+    FACT        go to state 23
+    FIX         go to state 24
+    IDALL2      go to state 25
+    IDTEMP2     go to state 26
+
+
+State 43
+
+   60 stmt: TYPE $@10 • REC
+
+    ID  shift, and go to state 73
+
+    REC     go to state 74
+    IDALL   go to state 75
+    IDTEMP  go to state 76
+
+
+State 44
+
+   72 EXPR: EXPR '+' • TERM
+
+    NUMBER        shift, and go to state 4
+    ID            shift, and go to state 5
+    FLOAT_NUMBER  shift, and go to state 6
+    INC           shift, and go to state 7
+    DEC           shift, and go to state 8
+    '('           shift, and go to state 13
+    '-'           shift, and go to state 14
+
+    TERM     go to state 77
+    FACT     go to state 23
+    FIX      go to state 24
+    IDALL2   go to state 25
+    IDTEMP2  go to state 35
+
+
+State 45
+
+   73 EXPR: EXPR '-' • TERM
+
+    NUMBER        shift, and go to state 4
+    ID            shift, and go to state 5
+    FLOAT_NUMBER  shift, and go to state 6
+    INC           shift, and go to state 7
+    DEC           shift, and go to state 8
+    '('           shift, and go to state 13
+    '-'           shift, and go to state 14
+
+    TERM     go to state 78
+    FACT     go to state 23
+    FIX      go to state 24
+    IDALL2   go to state 25
+    IDTEMP2  go to state 35
+
+
+State 46
+
+   75 TERM: TERM '*' • FACT
+
+    NUMBER        shift, and go to state 4
+    ID            shift, and go to state 5
+    FLOAT_NUMBER  shift, and go to state 6
+    INC           shift, and go to state 7
+    DEC           shift, and go to state 8
+    '('           shift, and go to state 13
+    '-'           shift, and go to state 14
+
+    FACT     go to state 79
+    FIX      go to state 24
+    IDALL2   go to state 25
+    IDTEMP2  go to state 35
+
+
+State 47
+
+   76 TERM: TERM '/' • FACT
+
+    NUMBER        shift, and go to state 4
+    ID            shift, and go to state 5
+    FLOAT_NUMBER  shift, and go to state 6
+    INC           shift, and go to state 7
+    DEC           shift, and go to state 8
+    '('           shift, and go to state 13
+    '-'           shift, and go to state 14
+
+    FACT     go to state 80
+    FIX      go to state 24
+    IDALL2   go to state 25
+    IDTEMP2  go to state 35
+
+
+State 48
+
+   79 FACT: IDTEMP2 INC •
+
+    $default  reduce using rule 79 (FACT)
+
+
+State 49
+
+   81 FACT: IDTEMP2 DEC •
+
+    $default  reduce using rule 81 (FACT)
+
+
+State 50
+
+   61 stmt: IDTEMP2 '=' • EXPR
+
+    NUMBER        shift, and go to state 4
+    ID            shift, and go to state 5
+    FLOAT_NUMBER  shift, and go to state 6
+    INC           shift, and go to state 7
+    DEC           shift, and go to state 8
+    '('           shift, and go to state 13
+    '-'           shift, and go to state 14
+
+    EXPR     go to state 81
+    TERM     go to state 22
+    FACT     go to state 23
+    FIX      go to state 24
+    IDALL2   go to state 25
+    IDTEMP2  go to state 35
+
+
+State 51
+
+   89 IDALL2: IDTEMP2 $@12 • BRACKS2
+
+    '['  shift, and go to state 82
+
+    $default  reduce using rule 92 (BRACKS2)
+
+    BRACKS2  go to state 83
+
+
+State 52
+
+   57 FIX1: NUMBER •
+
+    $default  reduce using rule 57 (FIX1)
+
+
+State 53
+
+   58 FIX1: FLOAT_NUMBER •
+
+    $default  reduce using rule 58 (FIX1)
+
+
+State 54
+
+   50 FACT1: INC • IDALL2
+
+    ID  shift, and go to state 5
+
+    IDALL2   go to state 84
+    IDTEMP2  go to state 28
+
+
+State 55
+
+   52 FACT1: DEC • IDALL2
+
+    ID  shift, and go to state 5
+
+    IDALL2   go to state 85
+    IDTEMP2  go to state 28
+
+
+State 56
+
+   26 condition: NOT • sub_condition
+   27          | NOT • sub_condition boolop condition
+   28          | NOT • '(' condition ')' boolop condition
+   30          | NOT • '(' condition ')'
+
+    NUMBER        shift, and go to state 52
+    ID            shift, and go to state 5
+    FLOAT_NUMBER  shift, and go to state 53
+    INC           shift, and go to state 54
+    DEC           shift, and go to state 55
+    '('           shift, and go to state 86
+    '-'           shift, and go to state 58
+
+    sub_condition  go to state 87
+    EXPR1          go to state 61
+    TERM1          go to state 62
+    FACT1          go to state 63
+    FIX1           go to state 64
+    IDALL2         go to state 65
+    IDTEMP2        go to state 28
+
+
+State 57
+
+   29 condition: '(' • condition ')' boolop condition
+
+    NUMBER        shift, and go to state 52
+    ID            shift, and go to state 5
+    FLOAT_NUMBER  shift, and go to state 53
+    INC           shift, and go to state 54
+    DEC           shift, and go to state 55
+    NOT           shift, and go to state 56
+    '('           shift, and go to state 57
+    '-'           shift, and go to state 58
+
+    condition      go to state 88
+    sub_condition  go to state 60
+    EXPR1          go to state 61
+    TERM1          go to state 62
+    FACT1          go to state 63
+    FIX1           go to state 64
+    IDALL2         go to state 65
+    IDTEMP2        go to state 28
+
+
+State 58
+
+   54 FACT1: '-' • FIX1
+
+    NUMBER        shift, and go to state 52
+    ID            shift, and go to state 5
+    FLOAT_NUMBER  shift, and go to state 53
+
+    FIX1     go to state 89
+    IDALL2   go to state 90
+    IDTEMP2  go to state 28
+
+
+State 59
+
+   20 if_control: IF '(' condition • ')' $@8 '{' slist '}'
+
+    ')'  shift, and go to state 91
+
+
+State 60
+
+   24 condition: sub_condition • boolop condition
+   25          | sub_condition •
+
+    BOOLOR   shift, and go to state 92
+    BOOLAND  shift, and go to state 93
+
+    $default  reduce using rule 25 (condition)
+
+    boolop  go to state 94
+
+
+State 61
+
+   31 sub_condition: EXPR1 • relop EXPR1
+   32              | EXPR1 •
+   44 EXPR1: EXPR1 • '+' TERM1
+   45      | EXPR1 • '-' TERM1
+
+    RELAND         shift, and go to state 95
+    REOR           shift, and go to state 96
+    RELGREAT       shift, and go to state 97
+    RELLESS        shift, and go to state 98
+    RELGREATEQUAL  shift, and go to state 99
+    RELLESSEQUAL   shift, and go to state 100
+    RELNOTEQUAL    shift, and go to state 101
+    RELEQUAL       shift, and go to state 102
+    '='            shift, and go to state 103
+    '+'            shift, and go to state 104
+    '-'            shift, and go to state 105
+
+    $default  reduce using rule 32 (sub_condition)
+
+    relop  go to state 106
+
+
+State 62
+
+   46 EXPR1: TERM1 •
+   47 TERM1: TERM1 • '*' FACT1
+   48      | TERM1 • '/' FACT1
+
+    '*'  shift, and go to state 107
+    '/'  shift, and go to state 108
+
+    $default  reduce using rule 46 (EXPR1)
+
+
+State 63
+
+   49 TERM1: FACT1 •
+
+    $default  reduce using rule 49 (TERM1)
+
+
+State 64
+
+   55 FACT1: FIX1 •
+
+    $default  reduce using rule 55 (FACT1)
+
+
+State 65
+
+   51 FACT1: IDALL2 • INC
+   53      | IDALL2 • DEC
+   56 FIX1: IDALL2 •
+
+    INC  shift, and go to state 109
+    DEC  shift, and go to state 110
+
+    $default  reduce using rule 56 (FIX1)
+
+
+State 66
+
+   18 while_loop: WHILE $@6 '(' • condition ')' $@7 '{' slist '}'
+
+    NUMBER        shift, and go to state 52
+    ID            shift, and go to state 5
+    FLOAT_NUMBER  shift, and go to state 53
+    INC           shift, and go to state 54
+    DEC           shift, and go to state 55
+    NOT           shift, and go to state 56
+    '('           shift, and go to state 57
+    '-'           shift, and go to state 58
+
+    condition      go to state 111
+    sub_condition  go to state 60
+    EXPR1          go to state 61
+    TERM1          go to state 62
+    FACT1          go to state 63
+    FIX1           go to state 64
+    IDALL2         go to state 65
+    IDTEMP2        go to state 28
+
+
+State 67
+
+   10 switch: SWITCH '(' EXPR • ')' $@3 '{' cases '}'
+   72 EXPR: EXPR • '+' TERM
+   73     | EXPR • '-' TERM
+
+    ')'  shift, and go to state 112
+    '+'  shift, and go to state 44
+    '-'  shift, and go to state 45
+
+
+State 68
+
+    7 slist: '{' $@1 slist • $@2 '}' slist
+
+    $default  reduce using rule 6 ($@2)
+
+    $@2  go to state 113
+
+
+State 69
+
+   84 FIX: '(' EXPR ')' •
+
+    $default  reduce using rule 84 (FIX)
+
+
+State 70
+
+   22 else_add_on: ELSE $@9 • '{' slist '}'
+
+    '{'  shift, and go to state 114
+
+
+State 71
+
+    2 slist: if_control else_add_on slist •
+
+    $default  reduce using rule 2 (slist)
+
+
+State 72
+
+    1 slist: stmt ';' slist •
+
+    $default  reduce using rule 1 (slist)
+
+
+State 73
+
+   98 IDTEMP: ID •
+
+    $default  reduce using rule 98 (IDTEMP)
+
+
+State 74
+
+   60 stmt: TYPE $@10 REC •
+
+    $default  reduce using rule 60 (stmt)
+
+
+State 75
+
+   63 REC: IDALL • REC1
+
+    '='  shift, and go to state 115
+    ','  shift, and go to state 116
+
+    $default  reduce using rule 71 (REC2)
+
+    REC1  go to state 117
+    REC2  go to state 118
+
+
+State 76
+
+   94 IDALL: IDTEMP • $@14 BRACKS
+
+    $default  reduce using rule 93 ($@14)
+
+    $@14  go to state 119
+
+
+State 77
+
+   72 EXPR: EXPR '+' TERM •
+   75 TERM: TERM • '*' FACT
+   76     | TERM • '/' FACT
+
+    '*'  shift, and go to state 46
+    '/'  shift, and go to state 47
+
+    $default  reduce using rule 72 (EXPR)
+
+
+State 78
+
+   73 EXPR: EXPR '-' TERM •
+   75 TERM: TERM • '*' FACT
+   76     | TERM • '/' FACT
+
+    '*'  shift, and go to state 46
+    '/'  shift, and go to state 47
+
+    $default  reduce using rule 73 (EXPR)
+
+
+State 79
+
+   75 TERM: TERM '*' FACT •
+
+    $default  reduce using rule 75 (TERM)
+
+
+State 80
+
+   76 TERM: TERM '/' FACT •
+
+    $default  reduce using rule 76 (TERM)
+
+
+State 81
+
+   61 stmt: IDTEMP2 '=' EXPR •
+   72 EXPR: EXPR • '+' TERM
+   73     | EXPR • '-' TERM
+
+    '+'  shift, and go to state 44
+    '-'  shift, and go to state 45
+
+    $default  reduce using rule 61 (stmt)
+
+
+State 82
+
+   91 BRACKS2: '[' • NUMBER $@13 ']' BRACKS2
+
+    NUMBER  shift, and go to state 120
+
+
+State 83
+
+   89 IDALL2: IDTEMP2 $@12 BRACKS2 •
+
+    $default  reduce using rule 89 (IDALL2)
+
+
+State 84
+
+   50 FACT1: INC IDALL2 •
+
+    $default  reduce using rule 50 (FACT1)
+
+
+State 85
+
+   52 FACT1: DEC IDALL2 •
+
+    $default  reduce using rule 52 (FACT1)
+
+
+State 86
+
+   28 condition: NOT '(' • condition ')' boolop condition
+   30          | NOT '(' • condition ')'
+
+    NUMBER        shift, and go to state 52
+    ID            shift, and go to state 5
+    FLOAT_NUMBER  shift, and go to state 53
+    INC           shift, and go to state 54
+    DEC           shift, and go to state 55
+    NOT           shift, and go to state 56
+    '('           shift, and go to state 57
+    '-'           shift, and go to state 58
+
+    condition      go to state 121
+    sub_condition  go to state 60
+    EXPR1          go to state 61
+    TERM1          go to state 62
+    FACT1          go to state 63
+    FIX1           go to state 64
+    IDALL2         go to state 65
+    IDTEMP2        go to state 28
+
+
+State 87
+
+   26 condition: NOT sub_condition •
+   27          | NOT sub_condition • boolop condition
+
+    BOOLOR   shift, and go to state 92
+    BOOLAND  shift, and go to state 93
+
+    $default  reduce using rule 26 (condition)
+
+    boolop  go to state 122
+
+
+State 88
+
+   29 condition: '(' condition • ')' boolop condition
+
+    ')'  shift, and go to state 123
+
+
+State 89
+
+   54 FACT1: '-' FIX1 •
+
+    $default  reduce using rule 54 (FACT1)
+
+
+State 90
+
+   56 FIX1: IDALL2 •
+
+    $default  reduce using rule 56 (FIX1)
+
+
+State 91
+
+   20 if_control: IF '(' condition ')' • $@8 '{' slist '}'
+
+    $default  reduce using rule 19 ($@8)
+
+    $@8  go to state 124
+
+
+State 92
+
+   34 boolop: BOOLOR •
+
+    $default  reduce using rule 34 (boolop)
+
+
+State 93
+
+   33 boolop: BOOLAND •
+
+    $default  reduce using rule 33 (boolop)
+
+
+State 94
+
+   24 condition: sub_condition boolop • condition
+
+    NUMBER        shift, and go to state 52
+    ID            shift, and go to state 5
+    FLOAT_NUMBER  shift, and go to state 53
+    INC           shift, and go to state 54
+    DEC           shift, and go to state 55
+    NOT           shift, and go to state 56
+    '('           shift, and go to state 57
+    '-'           shift, and go to state 58
+
+    condition      go to state 125
+    sub_condition  go to state 60
+    EXPR1          go to state 61
+    TERM1          go to state 62
+    FACT1          go to state 63
+    FIX1           go to state 64
+    IDALL2         go to state 65
+    IDTEMP2        go to state 28
+
+
+State 95
+
+   35 relop: RELAND •
+
+    $default  reduce using rule 35 (relop)
+
+
+State 96
+
+   42 relop: REOR •
+
+    $default  reduce using rule 42 (relop)
+
+
+State 97
+
+   37 relop: RELGREAT •
+
+    $default  reduce using rule 37 (relop)
+
+
+State 98
+
+   39 relop: RELLESS •
+
+    $default  reduce using rule 39 (relop)
+
+
+State 99
+
+   38 relop: RELGREATEQUAL •
+
+    $default  reduce using rule 38 (relop)
+
+
+State 100
+
+   40 relop: RELLESSEQUAL •
+
+    $default  reduce using rule 40 (relop)
+
+
+State 101
+
+   41 relop: RELNOTEQUAL •
+
+    $default  reduce using rule 41 (relop)
+
+
+State 102
+
+   36 relop: RELEQUAL •
+
+    $default  reduce using rule 36 (relop)
+
+
+State 103
+
+   43 relop: '=' •
+
+    $default  reduce using rule 43 (relop)
+
+
+State 104
+
+   44 EXPR1: EXPR1 '+' • TERM1
+
+    NUMBER        shift, and go to state 52
+    ID            shift, and go to state 5
+    FLOAT_NUMBER  shift, and go to state 53
+    INC           shift, and go to state 54
+    DEC           shift, and go to state 55
+    '-'           shift, and go to state 58
+
+    TERM1    go to state 126
+    FACT1    go to state 63
+    FIX1     go to state 64
+    IDALL2   go to state 65
+    IDTEMP2  go to state 28
+
+
+State 105
+
+   45 EXPR1: EXPR1 '-' • TERM1
+
+    NUMBER        shift, and go to state 52
+    ID            shift, and go to state 5
+    FLOAT_NUMBER  shift, and go to state 53
+    INC           shift, and go to state 54
+    DEC           shift, and go to state 55
+    '-'           shift, and go to state 58
+
+    TERM1    go to state 127
+    FACT1    go to state 63
+    FIX1     go to state 64
+    IDALL2   go to state 65
+    IDTEMP2  go to state 28
+
+
+State 106
+
+   31 sub_condition: EXPR1 relop • EXPR1
+
+    NUMBER        shift, and go to state 52
+    ID            shift, and go to state 5
+    FLOAT_NUMBER  shift, and go to state 53
+    INC           shift, and go to state 54
+    DEC           shift, and go to state 55
+    '-'           shift, and go to state 58
+
+    EXPR1    go to state 128
+    TERM1    go to state 62
+    FACT1    go to state 63
+    FIX1     go to state 64
+    IDALL2   go to state 65
+    IDTEMP2  go to state 28
+
+
+State 107
+
+   47 TERM1: TERM1 '*' • FACT1
+
+    NUMBER        shift, and go to state 52
+    ID            shift, and go to state 5
+    FLOAT_NUMBER  shift, and go to state 53
+    INC           shift, and go to state 54
+    DEC           shift, and go to state 55
+    '-'           shift, and go to state 58
+
+    FACT1    go to state 129
+    FIX1     go to state 64
+    IDALL2   go to state 65
+    IDTEMP2  go to state 28
+
+
+State 108
+
+   48 TERM1: TERM1 '/' • FACT1
+
+    NUMBER        shift, and go to state 52
+    ID            shift, and go to state 5
+    FLOAT_NUMBER  shift, and go to state 53
+    INC           shift, and go to state 54
+    DEC           shift, and go to state 55
+    '-'           shift, and go to state 58
+
+    FACT1    go to state 130
+    FIX1     go to state 64
+    IDALL2   go to state 65
+    IDTEMP2  go to state 28
+
+
+State 109
+
+   51 FACT1: IDALL2 INC •
+
+    $default  reduce using rule 51 (FACT1)
+
+
+State 110
+
+   53 FACT1: IDALL2 DEC •
+
+    $default  reduce using rule 53 (FACT1)
+
+
+State 111
+
+   18 while_loop: WHILE $@6 '(' condition • ')' $@7 '{' slist '}'
+
+    ')'  shift, and go to state 131
+
+
+State 112
+
+   10 switch: SWITCH '(' EXPR ')' • $@3 '{' cases '}'
+
+    $default  reduce using rule 9 ($@3)
+
+    $@3  go to state 132
+
+
+State 113
+
+    7 slist: '{' $@1 slist $@2 • '}' slist
+
+    '}'  shift, and go to state 133
+
+
+State 114
+
+   22 else_add_on: ELSE $@9 '{' • slist '}'
+
+    INT           shift, and go to state 1
+    FLOAT         shift, and go to state 2
+    CHAR          shift, and go to state 3
+    NUMBER        shift, and go to state 4
+    ID            shift, and go to state 5
+    FLOAT_NUMBER  shift, and go to state 6
+    INC           shift, and go to state 7
+    DEC           shift, and go to state 8
+    IF            shift, and go to state 9
+    WHILE         shift, and go to state 10
+    SWITCH        shift, and go to state 11
+    '{'           shift, and go to state 12
+    '('           shift, and go to state 13
+    '-'           shift, and go to state 14
+
+    $default  reduce using rule 8 (slist)
+
+    slist       go to state 134
+    switch      go to state 16
+    while_loop  go to state 17
+    if_control  go to state 18
+    stmt        go to state 19
+    TYPE        go to state 20
+    EXPR        go to state 21
+    TERM        go to state 22
+    FACT        go to state 23
+    FIX         go to state 24
+    IDALL2      go to state 25
+    IDTEMP2     go to state 26
+
+
+State 115
+
+   68 REC1: '=' • EXPR $@11 REC2
+
+    NUMBER        shift, and go to state 4
+    ID            shift, and go to state 5
+    FLOAT_NUMBER  shift, and go to state 6
+    INC           shift, and go to state 7
+    DEC           shift, and go to state 8
+    '('           shift, and go to state 13
+    '-'           shift, and go to state 14
+
+    EXPR     go to state 135
+    TERM     go to state 22
+    FACT     go to state 23
+    FIX      go to state 24
+    IDALL2   go to state 25
+    IDTEMP2  go to state 35
+
+
+State 116
+
+   70 REC2: ',' • REC
+
+    ID  shift, and go to state 73
+
+    REC     go to state 136
+    IDALL   go to state 75
+    IDTEMP  go to state 76
+
+
+State 117
+
+   63 REC: IDALL REC1 •
+
+    $default  reduce using rule 63 (REC)
+
+
+State 118
+
+   69 REC1: REC2 •
+
+    $default  reduce using rule 69 (REC1)
+
+
+State 119
+
+   94 IDALL: IDTEMP $@14 • BRACKS
+
+    '['  shift, and go to state 137
+
+    $default  reduce using rule 97 (BRACKS)
+
+    BRACKS  go to state 138
+
+
+State 120
+
+   91 BRACKS2: '[' NUMBER • $@13 ']' BRACKS2
+
+    $default  reduce using rule 90 ($@13)
+
+    $@13  go to state 139
+
+
+State 121
+
+   28 condition: NOT '(' condition • ')' boolop condition
+   30          | NOT '(' condition • ')'
+
+    ')'  shift, and go to state 140
+
+
+State 122
+
+   27 condition: NOT sub_condition boolop • condition
+
+    NUMBER        shift, and go to state 52
+    ID            shift, and go to state 5
+    FLOAT_NUMBER  shift, and go to state 53
+    INC           shift, and go to state 54
+    DEC           shift, and go to state 55
+    NOT           shift, and go to state 56
+    '('           shift, and go to state 57
+    '-'           shift, and go to state 58
+
+    condition      go to state 141
+    sub_condition  go to state 60
+    EXPR1          go to state 61
+    TERM1          go to state 62
+    FACT1          go to state 63
+    FIX1           go to state 64
+    IDALL2         go to state 65
+    IDTEMP2        go to state 28
+
+
+State 123
+
+   29 condition: '(' condition ')' • boolop condition
+
+    BOOLOR   shift, and go to state 92
+    BOOLAND  shift, and go to state 93
+
+    boolop  go to state 142
+
+
+State 124
+
+   20 if_control: IF '(' condition ')' $@8 • '{' slist '}'
+
+    '{'  shift, and go to state 143
+
+
+State 125
+
+   24 condition: sub_condition boolop condition •
+
+    $default  reduce using rule 24 (condition)
+
+
+State 126
+
+   44 EXPR1: EXPR1 '+' TERM1 •
+   47 TERM1: TERM1 • '*' FACT1
+   48      | TERM1 • '/' FACT1
+
+    '*'  shift, and go to state 107
+    '/'  shift, and go to state 108
+
+    $default  reduce using rule 44 (EXPR1)
+
+
+State 127
+
+   45 EXPR1: EXPR1 '-' TERM1 •
+   47 TERM1: TERM1 • '*' FACT1
+   48      | TERM1 • '/' FACT1
+
+    '*'  shift, and go to state 107
+    '/'  shift, and go to state 108
+
+    $default  reduce using rule 45 (EXPR1)
+
+
+State 128
+
+   31 sub_condition: EXPR1 relop EXPR1 •
+   44 EXPR1: EXPR1 • '+' TERM1
+   45      | EXPR1 • '-' TERM1
+
+    '+'  shift, and go to state 104
+    '-'  shift, and go to state 105
+
+    $default  reduce using rule 31 (sub_condition)
+
+
+State 129
+
+   47 TERM1: TERM1 '*' FACT1 •
+
+    $default  reduce using rule 47 (TERM1)
+
+
+State 130
+
+   48 TERM1: TERM1 '/' FACT1 •
+
+    $default  reduce using rule 48 (TERM1)
+
+
+State 131
+
+   18 while_loop: WHILE $@6 '(' condition ')' • $@7 '{' slist '}'
+
+    $default  reduce using rule 17 ($@7)
+
+    $@7  go to state 144
+
+
+State 132
+
+   10 switch: SWITCH '(' EXPR ')' $@3 • '{' cases '}'
+
+    '{'  shift, and go to state 145
+
+
+State 133
+
+    7 slist: '{' $@1 slist $@2 '}' • slist
+
+    INT           shift, and go to state 1
+    FLOAT         shift, and go to state 2
+    CHAR          shift, and go to state 3
+    NUMBER        shift, and go to state 4
+    ID            shift, and go to state 5
+    FLOAT_NUMBER  shift, and go to state 6
+    INC           shift, and go to state 7
+    DEC           shift, and go to state 8
+    IF            shift, and go to state 9
+    WHILE         shift, and go to state 10
+    SWITCH        shift, and go to state 11
+    '{'           shift, and go to state 12
+    '('           shift, and go to state 13
+    '-'           shift, and go to state 14
+
+    $default  reduce using rule 8 (slist)
+
+    slist       go to state 146
+    switch      go to state 16
+    while_loop  go to state 17
+    if_control  go to state 18
+    stmt        go to state 19
+    TYPE        go to state 20
+    EXPR        go to state 21
+    TERM        go to state 22
+    FACT        go to state 23
+    FIX         go to state 24
+    IDALL2      go to state 25
+    IDTEMP2     go to state 26
+
+
+State 134
+
+   22 else_add_on: ELSE $@9 '{' slist • '}'
+
+    '}'  shift, and go to state 147
+
+
+State 135
+
+   68 REC1: '=' EXPR • $@11 REC2
+   72 EXPR: EXPR • '+' TERM
+   73     | EXPR • '-' TERM
+
+    '+'  shift, and go to state 44
+    '-'  shift, and go to state 45
+
+    $default  reduce using rule 67 ($@11)
+
+    $@11  go to state 148
+
+
+State 136
+
+   70 REC2: ',' REC •
+
+    $default  reduce using rule 70 (REC2)
+
+
+State 137
+
+   96 BRACKS: '[' • NUMBER $@15 ']' BRACKS
+
+    NUMBER  shift, and go to state 149
+
+
+State 138
+
+   94 IDALL: IDTEMP $@14 BRACKS •
+
+    $default  reduce using rule 94 (IDALL)
+
+
+State 139
+
+   91 BRACKS2: '[' NUMBER $@13 • ']' BRACKS2
+
+    ']'  shift, and go to state 150
+
+
+State 140
+
+   28 condition: NOT '(' condition ')' • boolop condition
+   30          | NOT '(' condition ')' •
+
+    BOOLOR   shift, and go to state 92
+    BOOLAND  shift, and go to state 93
+
+    $default  reduce using rule 30 (condition)
+
+    boolop  go to state 151
+
+
+State 141
+
+   27 condition: NOT sub_condition boolop condition •
+
+    $default  reduce using rule 27 (condition)
+
+
+State 142
+
+   29 condition: '(' condition ')' boolop • condition
+
+    NUMBER        shift, and go to state 52
+    ID            shift, and go to state 5
+    FLOAT_NUMBER  shift, and go to state 53
+    INC           shift, and go to state 54
+    DEC           shift, and go to state 55
+    NOT           shift, and go to state 56
+    '('           shift, and go to state 57
+    '-'           shift, and go to state 58
+
+    condition      go to state 152
+    sub_condition  go to state 60
+    EXPR1          go to state 61
+    TERM1          go to state 62
+    FACT1          go to state 63
+    FIX1           go to state 64
+    IDALL2         go to state 65
+    IDTEMP2        go to state 28
+
+
+State 143
+
+   20 if_control: IF '(' condition ')' $@8 '{' • slist '}'
+
+    INT           shift, and go to state 1
+    FLOAT         shift, and go to state 2
+    CHAR          shift, and go to state 3
+    NUMBER        shift, and go to state 4
+    ID            shift, and go to state 5
+    FLOAT_NUMBER  shift, and go to state 6
+    INC           shift, and go to state 7
+    DEC           shift, and go to state 8
+    IF            shift, and go to state 9
+    WHILE         shift, and go to state 10
+    SWITCH        shift, and go to state 11
+    '{'           shift, and go to state 12
+    '('           shift, and go to state 13
+    '-'           shift, and go to state 14
+
+    $default  reduce using rule 8 (slist)
+
+    slist       go to state 153
+    switch      go to state 16
+    while_loop  go to state 17
+    if_control  go to state 18
+    stmt        go to state 19
+    TYPE        go to state 20
+    EXPR        go to state 21
+    TERM        go to state 22
+    FACT        go to state 23
+    FIX         go to state 24
+    IDALL2      go to state 25
+    IDTEMP2     go to state 26
+
+
+State 144
+
+   18 while_loop: WHILE $@6 '(' condition ')' $@7 • '{' slist '}'
+
+    '{'  shift, and go to state 154
+
+
+State 145
+
+   10 switch: SWITCH '(' EXPR ')' $@3 '{' • cases '}'
+
+    CASE     shift, and go to state 155
+    DEFAULT  shift, and go to state 156
+
+    $default  reduce using rule 15 (cases)
+
+    cases  go to state 157
+
+
+State 146
+
+    7 slist: '{' $@1 slist $@2 '}' slist •
+
+    $default  reduce using rule 7 (slist)
+
+
+State 147
+
+   22 else_add_on: ELSE $@9 '{' slist '}' •
+
+    $default  reduce using rule 22 (else_add_on)
+
+
+State 148
+
+   68 REC1: '=' EXPR $@11 • REC2
+
+    ','  shift, and go to state 116
+
+    $default  reduce using rule 71 (REC2)
+
+    REC2  go to state 158
+
+
+State 149
+
+   96 BRACKS: '[' NUMBER • $@15 ']' BRACKS
+
+    $default  reduce using rule 95 ($@15)
+
+    $@15  go to state 159
+
+
+State 150
+
+   91 BRACKS2: '[' NUMBER $@13 ']' • BRACKS2
+
+    '['  shift, and go to state 82
+
+    $default  reduce using rule 92 (BRACKS2)
+
+    BRACKS2  go to state 160
+
+
+State 151
+
+   28 condition: NOT '(' condition ')' boolop • condition
+
+    NUMBER        shift, and go to state 52
+    ID            shift, and go to state 5
+    FLOAT_NUMBER  shift, and go to state 53
+    INC           shift, and go to state 54
+    DEC           shift, and go to state 55
+    NOT           shift, and go to state 56
+    '('           shift, and go to state 57
+    '-'           shift, and go to state 58
+
+    condition      go to state 161
+    sub_condition  go to state 60
+    EXPR1          go to state 61
+    TERM1          go to state 62
+    FACT1          go to state 63
+    FIX1           go to state 64
+    IDALL2         go to state 65
+    IDTEMP2        go to state 28
+
+
+State 152
+
+   29 condition: '(' condition ')' boolop condition •
+
+    $default  reduce using rule 29 (condition)
+
+
+State 153
+
+   20 if_control: IF '(' condition ')' $@8 '{' slist • '}'
+
+    '}'  shift, and go to state 162
+
+
+State 154
+
+   18 while_loop: WHILE $@6 '(' condition ')' $@7 '{' • slist '}'
+
+    INT           shift, and go to state 1
+    FLOAT         shift, and go to state 2
+    CHAR          shift, and go to state 3
+    NUMBER        shift, and go to state 4
+    ID            shift, and go to state 5
+    FLOAT_NUMBER  shift, and go to state 6
+    INC           shift, and go to state 7
+    DEC           shift, and go to state 8
+    IF            shift, and go to state 9
+    WHILE         shift, and go to state 10
+    SWITCH        shift, and go to state 11
+    '{'           shift, and go to state 12
+    '('           shift, and go to state 13
+    '-'           shift, and go to state 14
+
+    $default  reduce using rule 8 (slist)
+
+    slist       go to state 163
+    switch      go to state 16
+    while_loop  go to state 17
+    if_control  go to state 18
+    stmt        go to state 19
+    TYPE        go to state 20
+    EXPR        go to state 21
+    TERM        go to state 22
+    FACT        go to state 23
+    FIX         go to state 24
+    IDALL2      go to state 25
+    IDTEMP2     go to state 26
+
+
+State 155
+
+   13 cases: CASE • EXPR $@4 ':' slist BREAK $@5 ';' cases
+
+    NUMBER        shift, and go to state 4
+    ID            shift, and go to state 5
+    FLOAT_NUMBER  shift, and go to state 6
+    INC           shift, and go to state 7
+    DEC           shift, and go to state 8
+    '('           shift, and go to state 13
+    '-'           shift, and go to state 14
+
+    EXPR     go to state 164
+    TERM     go to state 22
+    FACT     go to state 23
+    FIX      go to state 24
+    IDALL2   go to state 25
+    IDTEMP2  go to state 35
+
+
+State 156
+
+   14 cases: DEFAULT • ':' slist
+
+    ':'  shift, and go to state 165
+
+
+State 157
+
+   10 switch: SWITCH '(' EXPR ')' $@3 '{' cases • '}'
+
+    '}'  shift, and go to state 166
+
+
+State 158
+
+   68 REC1: '=' EXPR $@11 REC2 •
+
+    $default  reduce using rule 68 (REC1)
+
+
+State 159
+
+   96 BRACKS: '[' NUMBER $@15 • ']' BRACKS
+
+    ']'  shift, and go to state 167
+
+
+State 160
+
+   91 BRACKS2: '[' NUMBER $@13 ']' BRACKS2 •
+
+    $default  reduce using rule 91 (BRACKS2)
+
+
+State 161
+
+   28 condition: NOT '(' condition ')' boolop condition •
+
+    $default  reduce using rule 28 (condition)
+
+
+State 162
+
+   20 if_control: IF '(' condition ')' $@8 '{' slist '}' •
+
+    $default  reduce using rule 20 (if_control)
+
+
+State 163
+
+   18 while_loop: WHILE $@6 '(' condition ')' $@7 '{' slist • '}'
+
+    '}'  shift, and go to state 168
+
+
+State 164
+
+   13 cases: CASE EXPR • $@4 ':' slist BREAK $@5 ';' cases
+   72 EXPR: EXPR • '+' TERM
+   73     | EXPR • '-' TERM
+
+    '+'  shift, and go to state 44
+    '-'  shift, and go to state 45
+
+    $default  reduce using rule 11 ($@4)
+
+    $@4  go to state 169
+
+
+State 165
+
+   14 cases: DEFAULT ':' • slist
+
+    INT           shift, and go to state 1
+    FLOAT         shift, and go to state 2
+    CHAR          shift, and go to state 3
+    NUMBER        shift, and go to state 4
+    ID            shift, and go to state 5
+    FLOAT_NUMBER  shift, and go to state 6
+    INC           shift, and go to state 7
+    DEC           shift, and go to state 8
+    IF            shift, and go to state 9
+    WHILE         shift, and go to state 10
+    SWITCH        shift, and go to state 11
+    '{'           shift, and go to state 12
+    '('           shift, and go to state 13
+    '-'           shift, and go to state 14
+
+    $default  reduce using rule 8 (slist)
+
+    slist       go to state 170
+    switch      go to state 16
+    while_loop  go to state 17
+    if_control  go to state 18
+    stmt        go to state 19
+    TYPE        go to state 20
+    EXPR        go to state 21
+    TERM        go to state 22
+    FACT        go to state 23
+    FIX         go to state 24
+    IDALL2      go to state 25
+    IDTEMP2     go to state 26
+
+
+State 166
+
+   10 switch: SWITCH '(' EXPR ')' $@3 '{' cases '}' •
+
+    $default  reduce using rule 10 (switch)
+
+
+State 167
+
+   96 BRACKS: '[' NUMBER $@15 ']' • BRACKS
+
+    '['  shift, and go to state 137
+
+    $default  reduce using rule 97 (BRACKS)
+
+    BRACKS  go to state 171
+
+
+State 168
+
+   18 while_loop: WHILE $@6 '(' condition ')' $@7 '{' slist '}' •
+
+    $default  reduce using rule 18 (while_loop)
+
+
+State 169
+
+   13 cases: CASE EXPR $@4 • ':' slist BREAK $@5 ';' cases
+
+    ':'  shift, and go to state 172
+
+
+State 170
+
+   14 cases: DEFAULT ':' slist •
+
+    $default  reduce using rule 14 (cases)
+
+
+State 171
+
+   96 BRACKS: '[' NUMBER $@15 ']' BRACKS •
+
+    $default  reduce using rule 96 (BRACKS)
+
+
+State 172
+
+   13 cases: CASE EXPR $@4 ':' • slist BREAK $@5 ';' cases
+
+    INT           shift, and go to state 1
+    FLOAT         shift, and go to state 2
+    CHAR          shift, and go to state 3
+    NUMBER        shift, and go to state 4
+    ID            shift, and go to state 5
+    FLOAT_NUMBER  shift, and go to state 6
+    INC           shift, and go to state 7
+    DEC           shift, and go to state 8
+    IF            shift, and go to state 9
+    WHILE         shift, and go to state 10
+    SWITCH        shift, and go to state 11
+    '{'           shift, and go to state 12
+    '('           shift, and go to state 13
+    '-'           shift, and go to state 14
+
+    $default  reduce using rule 8 (slist)
+
+    slist       go to state 173
+    switch      go to state 16
+    while_loop  go to state 17
+    if_control  go to state 18
+    stmt        go to state 19
+    TYPE        go to state 20
+    EXPR        go to state 21
+    TERM        go to state 22
+    FACT        go to state 23
+    FIX         go to state 24
+    IDALL2      go to state 25
+    IDTEMP2     go to state 26
+
+
+State 173
+
+   13 cases: CASE EXPR $@4 ':' slist • BREAK $@5 ';' cases
+
+    BREAK  shift, and go to state 174
+
+
+State 174
+
+   13 cases: CASE EXPR $@4 ':' slist BREAK • $@5 ';' cases
+
+    $default  reduce using rule 12 ($@5)
+
+    $@5  go to state 175
+
+
+State 175
+
+   13 cases: CASE EXPR $@4 ':' slist BREAK $@5 • ';' cases
+
+    ';'  shift, and go to state 176
+
+
+State 176
+
+   13 cases: CASE EXPR $@4 ':' slist BREAK $@5 ';' • cases
+
+    CASE     shift, and go to state 155
+    DEFAULT  shift, and go to state 156
+
+    $default  reduce using rule 15 (cases)
+
+    cases  go to state 177
+
+
+State 177
+
+   13 cases: CASE EXPR $@4 ':' slist BREAK $@5 ';' cases •
+
+    $default  reduce using rule 13 (cases)

@@ -1,0 +1,12 @@
+switch(a+b){
+   case a+c:
+   	switch(b){
+	case c:
+	 sdfs = a;
+	break;
+}	
+    
+   case b:
+   	c =d;
+	break;
+}
