@@ -1,0 +1,6 @@
+if(a == 1){
+res  = -(a + b);
+}
+else{
+res  = a - b;
+}
